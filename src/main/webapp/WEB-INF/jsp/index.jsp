@@ -34,26 +34,23 @@
     <div class="navbar navbar-fixed-top">
       <div class="navbar-inner">
         <div class="container" align="center">
-          <a href="/" class="brand">ToDo list</a>
+          ToDo list
         </div>
       </div>
     </div>
 
     <div class="container" id="getting-started">
-    	<div>
-    		<hr>
-    	</div>
-  		<div align="center">
-  			<form:form method="post" action="validate" commandName="user">
-  				<form:label path="userName">User Name</form:label>
-  				<form:input path="userName"/>
-  				<form:label path="passwd">Password</form:label>
-  				<form:password path="passwd"/>
-  				<input type="submit" value="Login" class="btn"/>
-  			</form:form>
-  		</div>
-  		
-  		<div align="center">
+		<div class="hero-unit" align="left">
+				<form:form method="post" action="validate" commandName="user">
+					<form:label path="userName">User Name</form:label>
+					<form:input path="userName" />
+					<form:label path="passwd">Password</form:label>
+					<form:password path="passwd" />
+					<br>
+					<input type="submit" value="Login" class="btn btn-primary" />
+				</form:form>
+		</div>
+		<div align="center">
   		  	<%
   		  		//String message = (String)request.getAttribute("message");
   		  		out.println("message received: "+(String)request.getAttribute("message"));
