@@ -49,22 +49,13 @@
 					<br>
 					<input type="submit" value="Login" class="btn btn-primary" />
 				</form:form>
+			<%
+  		  		String message = (String)request.getAttribute("message");
+  		  		if (null != message)
+  		  			out.println(message);
+  			%>
 		</div>
 		<div align="center">
-  		  	<%
-  		  		//String message = (String)request.getAttribute("message");
-  		  		out.println("message received: "+(String)request.getAttribute("message"));
-				out.println("<br>");  		  	
-				Map<String, String[]> m = request.getParameterMap();
-  				for (Map.Entry<String, String[]> entry: m.entrySet()){
-  					out.println(entry.getKey());
-  					out.println("<br>");
-  						for(String s : entry.getValue()){
-  							out.println(s);
-  							out.println("<br>");
-  						}
-  				}
-  			%>
   		</div>
   	</div>
     <script src="http://twitter.github.com/bootstrap/assets/js/jquery.js"></script>

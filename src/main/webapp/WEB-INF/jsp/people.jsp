@@ -14,21 +14,13 @@
     <link href="http://twitter.github.com/bootstrap/assets/css/bootstrap.css" rel="stylesheet">
     <link href="http://twitter.github.com/bootstrap/assets/css/bootstrap-responsive.css" rel="stylesheet">
 
-    <!--
-      IMPORTANT:
-      This is Heroku specific styling. Remove to customize.
-    -->
-    <link href="http://heroku.github.com/template-app-bootstrap/heroku.css" rel="stylesheet">
-    <!-- /// -->
-
 </head>
 
 <body>
 <div class="navbar navbar-fixed-top">
     <div class="navbar-inner">
         <div class="container">
-            <a href="/" class="brand">Spring MVC and Hibernate Template</a>
-            <a href="/" class="brand" id="heroku">by <strong>heroku</strong></a>
+            <a href="/" class="brand">Todo App</a>
         </div>
     </div>
 </div>
@@ -37,7 +29,7 @@
     <div class="row">
         <div class="span8 offset2">
             <div class="page-header">
-                <h1>Simple CRUD Page</h1>
+                <h1>Simple Task Manager</h1>
             </div>
             <form:form method="post" action="add" commandName="person" class="form-vertical">
 

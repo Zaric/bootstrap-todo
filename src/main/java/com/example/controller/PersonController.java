@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.example.model.Person;
 import com.example.model.User;
 import com.example.service.PersonService;
+import com.example.service.TodoService;
 import com.example.service.UserService;
 
 @Controller
@@ -24,6 +25,9 @@ public class PersonController {
 	
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private TodoService todoService;
 
 	private static final Logger logger = LoggerFactory.getLogger(PersonController.class);
 	
@@ -44,6 +48,26 @@ public class PersonController {
 		return "index";
 	}
 
+	@RequestMapping(value = "/validate", method = RequestMethod.POST)
+	public String validate(@ModelAttribute("user") User user, BindingResult result, HttpServletRequest request) {
+		
+		logger.info("user recieved is: "+user.getUserName()+" with passwd: "+ user.getPasswd());
+		if (userService.validateUser(user)){
+			return "redirect:/people/";
+		}else{
+			logger.info("login failed");
+			request.setAttribute("message", "Invalid login credentials");
+			return "forward:/";
+		}
+	}
+	
+	@RequestMapping("/tasks")
+	public String todoList(Map<String, Object> map){
+
+		// get a list of tasks
+		return "tasks";
+	}
+	
 	@RequestMapping(value = "/people/add", method = RequestMethod.POST)
 	public String addPerson(@ModelAttribute("person") Person person,
 			BindingResult result) {
@@ -60,19 +84,6 @@ public class PersonController {
 		personService.removePerson(personId);
 		logger.info("removed person");
 		return "redirect:/people/";
-	}
-
-	@RequestMapping(value = "/validate", method = RequestMethod.POST)
-	public String validate(@ModelAttribute("user") User user, BindingResult result, HttpServletRequest request) {
-		
-		logger.info("user recieved is: "+user.getUserName()+" with passwd: "+ user.getPasswd());
-		if (userService.validateUser(user)){
-			return "redirect:/people/";
-		}else{
-			logger.info("login failed");
-			request.setAttribute("message", "loginFail");
-			return "forward:/";
-		}
 	}
 	
 	@RequestMapping("/people/")

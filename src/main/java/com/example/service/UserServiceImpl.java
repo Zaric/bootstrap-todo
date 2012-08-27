@@ -38,17 +38,10 @@ public class UserServiceImpl implements UserService {
 			User u = (User) qry.getSingleResult();
 		} catch (Exception e) {
 			logger.info("user not valid");
-			e.printStackTrace();
 			return false;
 		}
 		
-//		if (qry.getSingleResult().equals(null)) {
-//			logger.info("user not valid");
-//			return false;
-//		} else {
 		logger.info("user is valid");
 		return true;
-//		}
 	}
-
 }
