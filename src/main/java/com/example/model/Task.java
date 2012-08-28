@@ -7,7 +7,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 @Entity
-public class Todo {
+public class Task {
 
 	@Id
 	@GeneratedValue
@@ -21,10 +21,10 @@ public class Todo {
 	
 	private boolean isCompleted;
 
-	public Todo() {
+	public Task() {
 	}
 	
-	public Todo(String taskName, Date createdDate, Date completeBy,
+	public Task(String taskName, Date createdDate, Date completeBy,
 			boolean isCompleted) {
 		super();
 		this.taskName = taskName;
@@ -72,8 +72,5 @@ public class Todo {
 	public void setCompleted(boolean isCompleted) {
 		this.isCompleted = isCompleted;
 	}
-	
-	
-	
 	
 }

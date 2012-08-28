@@ -40,7 +40,6 @@
                 <input type="submit" value="Add Person" class="btn"/>
             </form:form>
 
-
             <c:if  test="${!empty peopleList}">
                 <h3>People</h3>
                 <table class="table table-bordered table-striped">
