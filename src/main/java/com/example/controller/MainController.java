@@ -2,7 +2,11 @@ package com.example.controller;
 
 import java.util.Calendar;
 import java.util.Map;
+
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.xml.ws.Response;
 
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
@@ -40,10 +44,28 @@ public class MainController {
 	private User sam = null;
 
 	@RequestMapping("/")
-	public String listPeople(Map<String, Object> map, HttpServletRequest request) {
+	public String listPeople(Map<String, Object> map, HttpServletRequest request, HttpServletResponse response) {
 
 		logger.info("request is empty? " + request.getAttribute("message"));
-
+		
+		Cookie newCookie = null;
+		Cookie[] myCookie = request.getCookies();
+		boolean foundACookie = false;
+		
+		for (Cookie cookie : myCookie) {
+			if (cookie.getName().equals("session"));{
+				foundACookie = true;
+				return "redirect:/tasks/";
+			}
+		}
+		logger.info("Cookie found:"+foundACookie);
+		if (!foundACookie){
+			newCookie = new Cookie("session", "Sam");
+			newCookie.setMaxAge(24*60*60);
+			response.addCookie(newCookie);
+		}	
+		
+		// create a test user if new session 
 		if (null == sam) {
 			sam = new User("sam", "secr3t");
 			userService.addUser(sam);
@@ -58,8 +80,8 @@ public class MainController {
 	public String validate(@ModelAttribute("user") User user,
 			BindingResult result, HttpServletRequest request) {
 
-		logger.info("user recieved is: " + user.getUserName()
-				+ " with passwd: " + user.getPasswd());
+		logger.info("user recieved is: " + user.getUserName() + " with passwd: " + user.getPasswd());
+		
 		if (userService.validateUser(user)) {
 			return "redirect:/tasks/";
 		} else {
@@ -70,14 +92,6 @@ public class MainController {
 	}
 
 /* handle tasks here */
-/*	
-	@RequestMapping("/tasks/")
-	public String todoList(Map<String, Object> map) {
-		
-		// get a list of tasks
-		return "tasks";
-	}
-*/	
 	
 	@RequestMapping(value = "/tasks/add", method=RequestMethod.POST)
 	public String addTask(@ModelAttribute("task") Task task ){
@@ -86,13 +100,15 @@ public class MainController {
 		
 		task.setCreatedDate(Calendar.getInstance().getTime());
 		task.setCompleted(false);
+		if (null == task.getCompleteBy())
+			task.setCompleteBy(Calendar.getInstance().getTime());
 		
 		taskService.createTask(task);		
 		
 		return "redirect:/tasks/";
 	}
 	
-	@RequestMapping("/tasks/delete/taskId")
+	@RequestMapping("/tasks/delete/{taskId}")
 	public String deleteTask(@PathVariable("taskId") Integer taskId){
 		logger.info("deleting task with id:"+taskId);
 		taskService.deleteTask(taskId);

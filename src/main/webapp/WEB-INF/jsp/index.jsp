@@ -8,7 +8,7 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>Spring MVC and Hibernate Template</title>
+    <title>Simple Task Manager</title>
 
     <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -34,13 +34,13 @@
     <div class="navbar navbar-fixed-top">
       <div class="navbar-inner">
         <div class="container" align="center">
-          ToDo list
+          <h2>Simple Task Manager</h2>
         </div>
       </div>
     </div>
 
-    <div class="container" id="getting-started">
-		<div class="hero-unit" align="left">
+    <div class="container">
+		<div class="hero-unit" align="center">
 				<form:form method="post" action="validate" commandName="user">
 					<form:label path="userName">User Name</form:label>
 					<form:input path="userName" />
@@ -56,6 +56,7 @@
   			%>
 		</div>
 		<div align="center">
+		<!--  -->
   		</div>
   	</div>
     <script src="http://twitter.github.com/bootstrap/assets/js/jquery.js"></script>
