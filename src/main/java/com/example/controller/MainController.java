@@ -44,7 +44,7 @@ public class MainController {
 
 	private static final Logger logger = LoggerFactory.getLogger(MainController.class);
 
-	private User sam = null;
+	private User sam = new User("sam", "secr3t");
 	
 	private Tag defaultTag = new Tag("Default");
 	private Tag workTag = new Tag("Work");
@@ -77,12 +77,13 @@ public class MainController {
 		
 		// create a test user if new session 
 		if (null == sam) {
-			sam = new User("sam", "secr3t");
+//			sam = new User("sam", "secr3t");
 			userService.addUser(sam);
 			map.put("user", sam);
 		} else {
 			logger.info("message: " + map.get("message"));
 		}
+		
 		return "index";
 	}
 
@@ -121,6 +122,10 @@ public class MainController {
 		
 		task.setTags(tags);
 		
+		task.setUser(sam);
+		
+		logger.info("User sam is :"+sam);
+		
 		taskService.createTask(task);		
 		
 		return "redirect:/tasks/";
@@ -149,7 +154,8 @@ public class MainController {
 		return "tasks";
 	}
 
-/* people methods */
+/* People methods, not used anymore */	
+
 	
 	@RequestMapping(value = "/people/add", method = RequestMethod.POST)
 	public String addPerson(@ModelAttribute("person") Person person,

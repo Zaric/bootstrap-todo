@@ -10,8 +10,10 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -40,6 +42,10 @@ public class Task implements Serializable{
 	@ManyToMany(targetEntity = Tag.class, fetch=FetchType.EAGER)
 	@JoinTable(name="TASK_TAG")
 	private List<Tag> tags;
+	
+	@ManyToOne
+	@JoinColumn(name="userId")
+	private User user;
 	
 	public Task() {
 	}
@@ -99,5 +105,13 @@ public class Task implements Serializable{
 
 	public void setTags(List<Tag> tags) {
 		this.tags = tags;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
 	}
 }

@@ -1,5 +1,6 @@
 package com.example.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -14,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.example.model.Tag;
 import com.example.model.Task;
+import com.example.model.User;
 
 @Service
 public class TaskServiceImpl implements TaskService {
@@ -37,10 +39,23 @@ public class TaskServiceImpl implements TaskService {
 				em.merge(tag);
 			}
 		}
-		
 		logger.info("tags persisted");
+
+//		logger.info("user attached? "+em.contains(task.getUser()));
 		
-		em.persist(task);
+		if(task.getUser() != null){
+//			User u = task.getUser();
+//			List<Task> listOfTask = new ArrayList<Task>();
+//			listOfTask.add(task);
+//			
+//			u.setListOfTasks(listOfTask);
+			
+			task.setUser(em.merge(task.getUser()));
+			
+			em.persist(task);
+			logger.info("merged existing task");
+		}
+				
 		
 		logger.info("Task created");
 
