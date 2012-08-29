@@ -52,10 +52,12 @@ public class MainController {
 		Cookie[] myCookie = request.getCookies();
 		boolean foundACookie = false;
 		
-		for (Cookie cookie : myCookie) {
-			if (cookie.getName().equals("session"));{
-				foundACookie = true;
-				return "redirect:/tasks/";
+		if (myCookie.length != 0){
+			for (Cookie cookie : myCookie) {
+				if (cookie.getName().equals("session"));{
+					foundACookie = true;
+					return "redirect:/tasks/";
+				}
 			}
 		}
 		logger.info("Cookie found:"+foundACookie);
