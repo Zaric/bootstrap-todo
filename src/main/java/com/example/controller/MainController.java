@@ -47,7 +47,8 @@ public class MainController {
 	public String listPeople(Map<String, Object> map, HttpServletRequest request, HttpServletResponse response) {
 
 		logger.info("request is empty? " + request.getAttribute("message"));
-		
+
+/*	heroku doesn't like cookies, it seems		
 		Cookie newCookie = null;
 		Cookie[] myCookie = request.getCookies();
 		boolean foundACookie = false;
@@ -67,7 +68,7 @@ public class MainController {
 			response.addCookie(newCookie);
 		}	
 		
-		// create a test user if new session 
+*/		// create a test user if new session 
 		if (null == sam) {
 			sam = new User("sam", "secr3t");
 			userService.addUser(sam);
