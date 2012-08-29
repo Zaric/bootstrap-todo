@@ -1,6 +1,6 @@
-# Spring MVC and Hibernate template application
+# A Simple Todo app in Spring, JPA, JSP and Twitter Bootstrap
 
-This is a template for a web application that uses Spring MVC and Hibernate. The sample code is a simple CRUD page that manipulates records for a single model object.
+This is a simple web application that uses Spring MVC and Hibernate with Twitter Bootstrap. The code is a CRUD page that manipulates records for a single model object.
 
 ## Running the application locally
 
@@ -12,3 +12,7 @@ Then run it with:
 
     $java -jar target/dependency/webapp-runner.jar target/*.war
 
+
+Best way to run inside eclipse is webapp-runner (https://github.com/jsimone/webapp-runner).
+
+I am working on deploying it to heroku to test the live application.
