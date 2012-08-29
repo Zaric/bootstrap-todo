@@ -62,6 +62,7 @@
 							<th>Name</th>
 							<th>Created Date</th>
 							<th>Complete By</th>
+							<th>Tags</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -70,6 +71,11 @@
 								<td>${task.taskName}</td>
 								<td>${task.createdDate}</td>
 								<td>${task.completeBy}</td>
+								<td>
+									<c:forEach items="${task.tags}" var="tag">
+										<span class="label label-info">${tag.tagName}</span>
+									</c:forEach>
+								</td>
 								<td>
 									<form action="delete/${task.id}" method="post">
 										<input type="submit" class="btn btn-danger btn-mini"

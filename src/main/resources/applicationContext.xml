@@ -26,8 +26,8 @@
     <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
         <property name="entityManagerFactory" ref="entityManagerFactory" />
         <property name="dataSource" ref="dataSource"/>
-
     </bean>
+   
 
     <beans profile="default">
         <jdbc:embedded-database id="dataSource"/>        

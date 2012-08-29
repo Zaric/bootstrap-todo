@@ -1,26 +1,46 @@
 package com.example.model;
 
+import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.Table;
 
 @Entity
-public class Task {
+@Table(name="task")
+public class Task implements Serializable{
+
+	private static final long serialVersionUID = 872251771684862390L;
 
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name="taskId")
 	private Integer id;
 	
+	@Column(name="taskname", length=50, nullable=false)
 	private String taskName;
 	
+	@Column(name="createdDate")
 	private Date createdDate;
 	
+	@Column(name="completeBy")
 	private Date completeBy;
 	
+	@Column(name="isCompleted")
 	private boolean isCompleted;
 
+	@ManyToMany(targetEntity = Tag.class, fetch=FetchType.EAGER)
+	@JoinTable(name="TASK_TAG")
+	private List<Tag> tags;
+	
 	public Task() {
 	}
 	
@@ -73,4 +93,11 @@ public class Task {
 		this.isCompleted = isCompleted;
 	}
 	
+	public List<Tag> getTags() {
+		return tags;
+	}
+
+	public void setTags(List<Tag> tags) {
+		this.tags = tags;
+	}
 }

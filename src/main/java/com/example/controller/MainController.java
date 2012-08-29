@@ -1,6 +1,8 @@
 package com.example.controller;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.Cookie;
@@ -21,6 +23,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import com.example.model.Person;
+import com.example.model.Tag;
 import com.example.model.Task;
 import com.example.model.User;
 import com.example.service.PersonService;
@@ -42,13 +45,17 @@ public class MainController {
 	private static final Logger logger = LoggerFactory.getLogger(MainController.class);
 
 	private User sam = null;
+	
+	private Tag defaultTag = new Tag("Default");
+	private Tag workTag = new Tag("Work");
+	private Tag personalTag = new Tag("Personal");
 
 	@RequestMapping("/")
 	public String listPeople(Map<String, Object> map, HttpServletRequest request, HttpServletResponse response) {
 
 		logger.info("request is empty? " + request.getAttribute("message"));
 
-/*	heroku doesn't like cookies, it seems		
+/*	heroku doesn't like cookies, it seems or maybe I tripped on some settings */		
 		Cookie newCookie = null;
 		Cookie[] myCookie = request.getCookies();
 		boolean foundACookie = false;
@@ -68,7 +75,7 @@ public class MainController {
 			response.addCookie(newCookie);
 		}	
 		
-*/		// create a test user if new session 
+		// create a test user if new session 
 		if (null == sam) {
 			sam = new User("sam", "secr3t");
 			userService.addUser(sam);
@@ -106,6 +113,14 @@ public class MainController {
 		if (null == task.getCompleteBy())
 			task.setCompleteBy(Calendar.getInstance().getTime());
 		
+		// add some default tags
+		List<Tag> tags = new ArrayList<Tag>();
+		tags.add(defaultTag);
+		tags.add(personalTag);
+		tags.add(workTag);
+		
+		task.setTags(tags);
+		
 		taskService.createTask(task);		
 		
 		return "redirect:/tasks/";
@@ -124,6 +139,12 @@ public class MainController {
 		
 		map.put("task", new Task());
 		map.put("taskList", taskService.listAll());
+		
+		for (Task task : taskService.listAll()) {
+			for (Tag tag : task.getTags()) {
+				logger.info("tag fetched: "+tag.getTagName());
+			}
+		}
 		
 		return "tasks";
 	}

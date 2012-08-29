@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.example.model.Tag;
 import com.example.model.Task;
 
 @Service
@@ -20,14 +21,29 @@ public class TaskServiceImpl implements TaskService {
 	@PersistenceContext
 	EntityManager em;
 	
-	
 	private static Logger logger = LoggerFactory.getLogger(TaskServiceImpl.class);
 	
 	@Transactional
 	public void createTask(Task task) {
+				
+		// save the tags first
+		for (Tag tag : task.getTags()) {
+
+			if (tag.getTagId() == null){
+				logger.info("persisting new tag");
+				em.persist(tag);
+			} else {
+				logger.info("merging existing tag");
+				em.merge(tag);
+			}
+		}
+		
+		logger.info("tags persisted");
 		
 		em.persist(task);
+		
 		logger.info("Task created");
+
 		return;
 	}
 
