@@ -55,7 +55,7 @@ public class MainController {
 
 		logger.info("request is empty? " + request.getAttribute("message"));
 
-/*	heroku doesn't like cookies, it seems or maybe I tripped on some settings */		
+/*	heroku doesn't like cookies, it seems or maybe I tripped on some settings 		
 		Cookie newCookie = null;
 		Cookie[] myCookie = request.getCookies();
 		boolean foundACookie = false;
@@ -74,7 +74,7 @@ public class MainController {
 			newCookie.setMaxAge(24*60*60);
 			response.addCookie(newCookie);
 		}	
-		
+*/		
 		// create a test user if new session 
 		if (null == sam) {
 //			sam = new User("sam", "secr3t");
