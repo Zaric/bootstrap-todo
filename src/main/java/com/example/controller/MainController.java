@@ -77,12 +77,17 @@ public class MainController {
 */		
 		// create a test user if new session 
 		if (null == sam) {
-//			sam = new User("sam", "secr3t");
-			userService.addUser(sam);
-			map.put("user", sam);
+			sam = new User("sam", "secr3t");
+//			userService.addUser(sam);
+//			map.put("user", sam);
+//			logger.info("added user "+sam.getUserName()+" to Datastore");
 		} else {
 			logger.info("message: " + map.get("message"));
 		}
+		
+		userService.addUser(sam);
+		map.put("user", sam);
+		logger.info("added user "+sam.getUserName()+" to Datastore");
 		
 		return "index";
 	}
