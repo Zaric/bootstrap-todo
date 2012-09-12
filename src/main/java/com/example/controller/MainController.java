@@ -53,7 +53,7 @@ public class MainController {
 	@RequestMapping("/")
 	public String listPeople(Map<String, Object> map, HttpServletRequest request, HttpServletResponse response) {
 
-		logger.info("request is empty? " + request.getAttribute("message"));
+//		logger.info("request is empty? " + request.getAttribute("message"));
 
 /*	heroku doesn't like cookies, it seems or maybe I tripped on some settings 		
 		Cookie newCookie = null;
@@ -78,9 +78,11 @@ public class MainController {
 		// create a test user if new session 
 		if (null == sam) {
 			sam = new User("sam", "secr3t");
-//			userService.addUser(sam);
-//			map.put("user", sam);
-//			logger.info("added user "+sam.getUserName()+" to Datastore");
+/*			
+			userService.addUser(sam);
+			map.put("user", sam);
+			logger.info("added user "+sam.getUserName()+" to Datastore");
+*/			
 		} else {
 			logger.info("message: " + map.get("message"));
 		}
