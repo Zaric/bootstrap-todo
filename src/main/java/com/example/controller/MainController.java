@@ -52,13 +52,28 @@ public class MainController {
 	private Tag workTag = new Tag("Work");
 	private Tag personalTag = new Tag("Personal");
 
+/* 	
+	@RequestMapping(value="/", method= RequestMethod.GET)
+	public String handleDefault(ModelMap model, Principal principal){
+
+		String name = principal.getName();
+		if (null != name){
+			logger.info("intercepted /. Sending user to /tasks/tasks.jsp");
+			return "redirect:/tasks/";
+		} else {
+			logger.info("caught / Redirecting to login page");
+			return "redirect:/login";
+		}
+		//return "redirect:/welcome";
+	}
+*/
+	
 	@RequestMapping(value ="/welcome", method = RequestMethod.GET)
 	public String listPeople(ModelMap model, Principal principal) {
 
-
-//	public String listPeople(Map<String, Object> map, HttpServletRequest request, HttpServletResponse response) {		
-//		logger.info("request is empty? " + request.getAttribute("message"));
-
+		logger.info("intercepted /welcome. Sending user to /tasks/tasks.jsp");
+		return "redirect:/tasks/";
+		
 /*	heroku doesn't like cookies, it seems or maybe I tripped on some settings 		
 		Cookie newCookie = null;
 		Cookie[] myCookie = request.getCookies();
@@ -97,9 +112,6 @@ public class MainController {
 		return "index";
 */		
 
-		logger.info("intercepted /. Sending user to /tasks/tasks.jsp");
-		return "redirect:/tasks/";
-//		return "tasks/tasks";
 	}
 
 	@RequestMapping(value="/login", method = RequestMethod.GET)
@@ -114,8 +126,7 @@ public class MainController {
 		model.addAttribute("error", "true");
 		return "index";
  
-	}	
-	
+	}
 	
 	@RequestMapping(value="/logout", method= RequestMethod.GET)
 	public String logout(ModelMap model){
