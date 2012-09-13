@@ -1,5 +1,6 @@
 package com.example.controller;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -17,6 +18,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -50,9 +52,11 @@ public class MainController {
 	private Tag workTag = new Tag("Work");
 	private Tag personalTag = new Tag("Personal");
 
-	@RequestMapping("/")
-	public String listPeople(Map<String, Object> map, HttpServletRequest request, HttpServletResponse response) {
+	@RequestMapping(value ="/welcome", method = RequestMethod.GET)
+	public String listPeople(ModelMap model, Principal principal) {
 
+
+//	public String listPeople(Map<String, Object> map, HttpServletRequest request, HttpServletResponse response) {		
 //		logger.info("request is empty? " + request.getAttribute("message"));
 
 /*	heroku doesn't like cookies, it seems or maybe I tripped on some settings 		
@@ -74,15 +78,14 @@ public class MainController {
 			newCookie.setMaxAge(24*60*60);
 			response.addCookie(newCookie);
 		}	
-*/		
+*/
 		// create a test user if new session 
+/*
 		if (null == sam) {
 			sam = new User("sam", "secr3t");
-/*			
 			userService.addUser(sam);
 			map.put("user", sam);
-			logger.info("added user "+sam.getUserName()+" to Datastore");
-*/			
+			logger.info("added user "+sam.getUserName()+" to Datastore");			
 		} else {
 			logger.info("message: " + map.get("message"));
 		}
@@ -92,8 +95,34 @@ public class MainController {
 		logger.info("added user "+sam.getUserName()+" to Datastore");
 		
 		return "index";
+*/		
+
+		logger.info("intercepted /. Sending user to /tasks/tasks.jsp");
+		return "redirect:/tasks/";
+//		return "tasks/tasks";
 	}
 
+	@RequestMapping(value="/login", method = RequestMethod.GET)
+	public String login(ModelMap model){
+		logger.info("intercepted /login. Sending to index");
+		return "index";
+	}
+	
+	@RequestMapping(value="/loginfailed", method = RequestMethod.GET)
+	public String loginerror(ModelMap model) {
+ 
+		model.addAttribute("error", "true");
+		return "index";
+ 
+	}	
+	
+	
+	@RequestMapping(value="/logout", method= RequestMethod.GET)
+	public String logout(ModelMap model){
+		return "index";
+	}
+	
+	// This will be replaced by Spring Security; delete on success 
 	@RequestMapping(value = "/validate", method = RequestMethod.POST)
 	public String validate(@ModelAttribute("user") User user,
 			BindingResult result, HttpServletRequest request) {

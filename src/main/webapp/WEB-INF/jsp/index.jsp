@@ -41,19 +41,21 @@
 
     <div class="container">
 		<div class="hero-unit" align="center">
-				<form:form method="post" action="validate" commandName="user">
-					<form:label path="userName">User Name</form:label>
-					<form:input path="userName" />
-					<form:label path="passwd">Password</form:label>
-					<form:password path="passwd" />
+				<form name="f"  action="<c:url value='j_spring_security_check' />" method="post">
+					<label>User Name</label>
+					<input type='text' name='j_username' value=''>
+					<label>Password</label>
+					<input type='password' name='j_password' />
 					<br>
-					<input type="submit" value="Login" class="btn btn-primary" />
-				</form:form>
-			<%
-  		  		String message = (String)request.getAttribute("message");
-  		  		if (null != message)
-  		  			out.println(message);
-  			%>
+					<input name="submit" type="submit" value="submit" class="btn btn-primary"/>
+					<input name="reset" type="reset" class="btn btn-primary"/>
+				</form>
+				<c:if test="${not empty error}">
+					<div class="errorblock">
+						Your login attempt was not successful, try again.<br /> Caused :
+						${sessionScope["SPRING_SECURITY_LAST_EXCEPTION"].message}
+					</div>
+				</c:if>
 		</div>
 		<div align="center">
 		<!--  -->
