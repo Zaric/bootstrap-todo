@@ -6,6 +6,9 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -43,6 +46,9 @@ public class MainController {
 
 	@Autowired
 	private TaskService taskService;
+	
+	@PersistenceContext
+	EntityManager em;
 
 	private static final Logger logger = LoggerFactory.getLogger(MainController.class);
 
@@ -71,12 +77,11 @@ public class MainController {
 	@RequestMapping(value ="/welcome", method = RequestMethod.GET)
 	public String listPeople(ModelMap model, Principal principal) {
 
-		String name = principal.getName();
-		if (null != name){
-			logger.info("intercepted /welcome. name is: "+name);
-			
+		if (null != principal){
+			logger.info("intercepted /welcome. name is: "+principal.getName());	
 			return "redirect:/tasks/";		
 		} else {
+			logger.info("weird no principal found:");
 			return "redirect:/loginfailed";
 		}
 		
@@ -122,6 +127,12 @@ public class MainController {
 
 	@RequestMapping(value="/login", method = RequestMethod.GET)
 	public String login(ModelMap model){
+		
+		Query qry = em.createNativeQuery("SELECT USERNAME FROM USERS WHERE USER_ID = 001", String.class);
+		for (Object item : qry.getResultList()) {
+			logger.info("item: "+(String)item);
+		}		
+		
 		logger.info("intercepted /login. Sending to index");
 		return "index";
 	}
@@ -143,7 +154,6 @@ public class MainController {
 	@RequestMapping(value = "/validate", method = RequestMethod.POST)
 	public String validate(@ModelAttribute("user") User user,
 			BindingResult result, HttpServletRequest request) {
-
 		logger.info("user recieved is: " + user.getUserName() + " with passwd: " + user.getPasswd());
 		
 		if (userService.validateUser(user)) {
