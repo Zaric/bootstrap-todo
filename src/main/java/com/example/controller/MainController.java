@@ -71,8 +71,14 @@ public class MainController {
 	@RequestMapping(value ="/welcome", method = RequestMethod.GET)
 	public String listPeople(ModelMap model, Principal principal) {
 
-		logger.info("intercepted /welcome. Sending user to /tasks/tasks.jsp");
-		return "redirect:/tasks/";
+		String name = principal.getName();
+		if (null != name){
+			logger.info("intercepted /welcome. name is: "+name);
+			
+			return "redirect:/tasks/";		
+		} else {
+			return "redirect:/loginfailed";
+		}
 		
 /*	heroku doesn't like cookies, it seems or maybe I tripped on some settings 		
 		Cookie newCookie = null;
@@ -93,9 +99,9 @@ public class MainController {
 			newCookie.setMaxAge(24*60*60);
 			response.addCookie(newCookie);
 		}	
-*/
+
 		// create a test user if new session 
-/*
+
 		if (null == sam) {
 			sam = new User("sam", "secr3t");
 			userService.addUser(sam);

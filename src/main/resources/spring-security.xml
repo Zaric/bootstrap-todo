@@ -9,12 +9,14 @@
 	<http auto-config="true">
 		<intercept-url pattern="/welcome*" access="ROLE_USER" />
 		<form-login login-page="/login" default-target-url="/tasks/" authentication-failure-url="/loginfailed" />
+		<logout logout-success-url="/logout" />
 	</http>
  
 	<authentication-manager>
 	  <authentication-provider>
+	  	<password-encoder hash="sha" />
 	    <user-service>
-		<user name="sam" password="secr3t" authorities="ROLE_USER" />
+		<user name="sam" password="a62fc3ef6f1174e4d7ce56fee013c4aaffe58650" authorities="ROLE_USER" />
 	    </user-service>
 	  </authentication-provider>
 	</authentication-manager>

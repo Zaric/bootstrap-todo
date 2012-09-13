@@ -21,11 +21,6 @@
 <link href="http://twitter.github.com/bootstrap/assets/css/bootstrap.css" rel="stylesheet" />
 <link href="http://twitter.github.com/bootstrap/assets/css/bootstrap-responsive.css" rel="stylesheet" />
 
-<script src="http://twitter.github.com/bootstrap/assets/js/jquery.js"></script>
-<script src="http://twitter.github.com/bootstrap/assets/js/bootstrap-modal.js"></script>
-<script src="http://twitter.github.com/bootstrap/assets/js/bootstrap-tab.js"></script>
-
-
 </head>
 <body>
 	<div class="navbar navbar-fixed-top">
@@ -88,5 +83,13 @@
 				</table>
 			</c:if>
 		</div>
+		<div align="center">
+		<hr />
+				<a href="<c:url value="/j_spring_security_logout" />" > Logout</a>
+		</div>
+		<script src="http://twitter.github.com/bootstrap/assets/js/jquery.js"></script>
+		<script src="http://twitter.github.com/bootstrap/assets/js/bootstrap-modal.js"></script>
+		<script src="http://twitter.github.com/bootstrap/assets/js/bootstrap-tab.js"></script>		
 </body>
+
 </html>
