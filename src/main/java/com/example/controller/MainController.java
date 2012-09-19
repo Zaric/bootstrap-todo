@@ -8,15 +8,8 @@ import java.util.Map;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.xml.ws.Response;
 
-import org.joda.time.DateTime;
-import org.joda.time.LocalDate;
-import org.joda.time.LocalDateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,12 +20,15 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+
 import com.example.model.Person;
 import com.example.model.Tag;
 import com.example.model.Task;
 import com.example.model.User;
+import com.example.model.UserRoles;
 import com.example.service.PersonService;
 import com.example.service.TaskService;
+import com.example.service.UserRoleService;
 import com.example.service.UserService;
 
 @Controller
@@ -44,6 +40,9 @@ public class MainController {
 	@Autowired
 	private UserService userService;
 
+	@Autowired
+	private UserRoleService userRoleService;
+	
 	@Autowired
 	private TaskService taskService;
 	
@@ -85,7 +84,7 @@ public class MainController {
 			return "redirect:/loginfailed";
 		}
 		
-/*	heroku doesn't like cookies, it seems or maybe I tripped on some settings 		
+/*	heroku doesn't like cookies, it seems or maybe I tripped on some settings 
 		Cookie newCookie = null;
 		Cookie[] myCookie = request.getCookies();
 		boolean foundACookie = false;
@@ -121,17 +120,24 @@ public class MainController {
 		logger.info("added user "+sam.getUserName()+" to Datastore");
 		
 		return "index";
-*/		
+*/	
 
 	}
 
 	@RequestMapping(value="/login", method = RequestMethod.GET)
-	public String login(ModelMap model){
+	public String login(ModelMap model, HttpServletRequest request){
+
+		/* Cookie code here*/
 		
-		Query qry = em.createNativeQuery("SELECT USERNAME FROM USERS WHERE USER_ID = 001", String.class);
-		for (Object item : qry.getResultList()) {
-			logger.info("item: "+(String)item);
-		}		
+		
+		UserRoles userRole = new UserRoles("ROLE_USER");
+		List<UserRoles> roles = new ArrayList<UserRoles>();
+		roles.add(userRole);
+		
+		// create a user for the system
+		sam.setEnabled(true);
+		sam.setUserRoles(roles);
+		userService.addUser(sam);
 		
 		logger.info("intercepted /login. Sending to index");
 		return "index";
@@ -148,21 +154,6 @@ public class MainController {
 	@RequestMapping(value="/logout", method= RequestMethod.GET)
 	public String logout(ModelMap model){
 		return "index";
-	}
-	
-	// This will be replaced by Spring Security; delete on success 
-	@RequestMapping(value = "/validate", method = RequestMethod.POST)
-	public String validate(@ModelAttribute("user") User user,
-			BindingResult result, HttpServletRequest request) {
-		logger.info("user recieved is: " + user.getUserName() + " with passwd: " + user.getPasswd());
-		
-		if (userService.validateUser(user)) {
-			return "redirect:/tasks/";
-		} else {
-			logger.info("login failed");
-			request.setAttribute("message", "Invalid login credentials");
-			return "forward:/";
-		}
 	}
 
 /* handle tasks here */
@@ -216,36 +207,4 @@ public class MainController {
 		
 		return "tasks";
 	}
-
-/* People methods, not used anymore */	
-
-	
-	@RequestMapping(value = "/people/add", method = RequestMethod.POST)
-	public String addPerson(@ModelAttribute("person") Person person,
-			BindingResult result) {
-
-		personService.addPerson(person);
-
-		logger.info("added person");
-		return "redirect:/people/";
-	}
-
-	@RequestMapping("/people/delete/{personId}")
-	public String deletePerson(@PathVariable("personId") Integer personId) {
-
-		personService.removePerson(personId);
-		logger.info("removed person");
-		return "redirect:/people/";
-	}
-
-	@RequestMapping("/people/")
-	public String handlePeople(Map<String, Object> map) {
-
-		map.put("person", new Person());
-		map.put("peopleList", personService.listPeople());
-
-		logger.info("handled loading of /people/");
-		return "people";
-	}
-
 }

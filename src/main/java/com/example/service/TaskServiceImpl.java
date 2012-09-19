@@ -1,6 +1,5 @@
 package com.example.service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -15,7 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.example.model.Tag;
 import com.example.model.Task;
-import com.example.model.User;
 
 @Service
 public class TaskServiceImpl implements TaskService {

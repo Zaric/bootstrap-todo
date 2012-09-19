@@ -8,7 +8,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import com.example.model.User;
+import com.example.model.UserRoles;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -20,8 +22,22 @@ public class UserServiceImpl implements UserService {
 	
 	@Transactional
 	public void addUser(User user) {
+		
+		// persist the UserRoles first
+		for (UserRoles role: user.getUserRoles()){
+			if (em.contains(role)){
+				logger.info("merging userRole: "+role.getUserRoleId());
+				em.merge(role);
+			} else {
+				logger.info("persisting userRole: "+role.getUserRoleId());
+				em.persist(role);
+			}
+		}
+		
+//		user.setUserRoles(userRoles);
+		
 		em.persist(user);
-		logger.info("created User:"+ user.getUserName());
+		logger.info("created User:"+ user.getUserName()+" with userId:"+user.getId());
 		return;
 	}
 
@@ -35,6 +51,7 @@ public class UserServiceImpl implements UserService {
 		qry.setParameter(2, user.getPasswd());
 		
 		try {
+			@SuppressWarnings("unused")
 			User u = (User) qry.getSingleResult();
 		} catch (Exception e) {
 			logger.info("user not valid");
