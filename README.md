@@ -12,7 +12,10 @@ Then run it with:
 
     $java -jar target/dependency/webapp-runner.jar target/*.war
 
+The application will be running at:
+
+    http://localhost:8080/welcome	
 
 Best way to run inside eclipse is webapp-runner (https://github.com/jsimone/webapp-runner).
 
-I am working on deploying it to heroku to test the live application.
+The application needs a local Postgres installation. Heroku deployment is in progress.

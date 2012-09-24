@@ -26,6 +26,8 @@ select * from user_details;
 select * from user_roles;
 select * from user_role_join;
 
+select * from task
+
 
 select * from hibernate_sequence;
 select setval('hibernate_sequence',1);

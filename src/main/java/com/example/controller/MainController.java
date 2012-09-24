@@ -1,32 +1,21 @@
 package com.example.controller;
 
 import java.security.Principal;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
-import java.util.Map;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.example.model.Person;
-import com.example.model.Tag;
-import com.example.model.Task;
 import com.example.model.User;
-import com.example.model.UserRoles;
-import com.example.service.PersonService;
 import com.example.service.TaskService;
 import com.example.service.UserRoleService;
 import com.example.service.UserService;
@@ -34,8 +23,8 @@ import com.example.service.UserService;
 @Controller
 public class MainController {
 
-	@Autowired
-	private PersonService personService;
+//	@Autowired
+//	private PersonService personService;
 
 	@Autowired
 	private UserService userService;
@@ -51,11 +40,11 @@ public class MainController {
 
 	private static final Logger logger = LoggerFactory.getLogger(MainController.class);
 
-	private User sam = new User("sam", "secr3t");
+//	private User sam = new User("sam", "secr3t");
 	
-	private Tag defaultTag = new Tag("Default");
-	private Tag workTag = new Tag("Work");
-	private Tag personalTag = new Tag("Personal");
+//	private Tag defaultTag = new Tag("Default");
+//	private Tag workTag = new Tag("Work");
+//	private Tag personalTag = new Tag("Personal");
 
 /* 	
 	@RequestMapping(value="/", method= RequestMethod.GET)
@@ -74,7 +63,7 @@ public class MainController {
 */
 	
 	@RequestMapping(value ="/welcome", method = RequestMethod.GET)
-	public String listPeople(ModelMap model, Principal principal) {
+	public String welcome(ModelMap model, Principal principal) {
 
 		if (null != principal){
 			logger.info("intercepted /welcome. name is: "+principal.getName());	
@@ -125,11 +114,30 @@ public class MainController {
 	}
 
 	@RequestMapping(value="/login", method = RequestMethod.GET)
-	public String login(ModelMap model, HttpServletRequest request){
+	public String login(ModelMap model, HttpServletRequest request, HttpServletResponse response){
 
-		/* Cookie code here*/
+		/* Cookie code here
 		
+		Cookie newCookie = null;
+		Cookie[] myCookie = request.getCookies();
+		boolean foundACookie = false;
 		
+		if (myCookie.length != 0){
+			for (Cookie cookie : myCookie) {
+				if (cookie.getName().equals("session"));{
+					foundACookie = true;
+					return "redirect:/tasks/";
+				}
+			}
+		}
+		logger.info("Cookie found:"+foundACookie);
+		if (!foundACookie){
+			newCookie = new Cookie("session", "Sam");
+			newCookie.setMaxAge(24*60*60);
+			response.addCookie(newCookie);
+		}	
+		*/
+/* 		-- Users and Roles --
 		UserRoles userRole = new UserRoles("ROLE_USER");
 		List<UserRoles> roles = new ArrayList<UserRoles>();
 		roles.add(userRole);
@@ -138,7 +146,7 @@ public class MainController {
 		sam.setEnabled(true);
 		sam.setUserRoles(roles);
 		userService.addUser(sam);
-		
+*/		
 		logger.info("intercepted /login. Sending to index");
 		return "index";
 	}
@@ -152,11 +160,16 @@ public class MainController {
 	}
 	
 	@RequestMapping(value="/logout", method= RequestMethod.GET)
-	public String logout(ModelMap model){
+	public String logout(ModelMap model, HttpServletRequest request, HttpServletResponse response){
+		/*
+		for (Cookie myCookie : request.getCookies()){
+			myCookie.setMaxAge(0);
+		}
+		*/
 		return "index";
 	}
 
-/* handle tasks here */
+/* handle tasks here *--
 	
 	@RequestMapping(value = "/tasks/add", method=RequestMethod.POST)
 	public String addTask(@ModelAttribute("task") Task task ){
@@ -207,4 +220,6 @@ public class MainController {
 		
 		return "tasks";
 	}
+*/
+	
 }
