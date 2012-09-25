@@ -35,7 +35,7 @@
     <beans profile="default">
         <!-- <jdbc:embedded-database id="dataSource"/> -->
         <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-            <property name="url" value="jdbc:postgresql://localhost"/>
+            <property name="url" value="jdbc:postgresql://192.168.122.102"/>
             <property name="username" value="postgres"/>
             <property name="password" value="ind0r3"/>        
         </bean>        

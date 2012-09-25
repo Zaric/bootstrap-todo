@@ -1,6 +1,8 @@
 package com.example.controller;
 
 import java.security.Principal;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.example.model.User;
+import com.example.model.UserRoles;
 import com.example.service.TaskService;
 import com.example.service.UserRoleService;
 import com.example.service.UserService;
@@ -40,7 +43,7 @@ public class MainController {
 
 	private static final Logger logger = LoggerFactory.getLogger(MainController.class);
 
-//	private User sam = new User("sam", "secr3t");
+	private User sam = new User("sam", "secr3t");
 	
 //	private Tag defaultTag = new Tag("Default");
 //	private Tag workTag = new Tag("Work");
@@ -137,7 +140,7 @@ public class MainController {
 			response.addCookie(newCookie);
 		}	
 		*/
-/* 		-- Users and Roles --
+/* 		-- Users and Roles --	*/
 		UserRoles userRole = new UserRoles("ROLE_USER");
 		List<UserRoles> roles = new ArrayList<UserRoles>();
 		roles.add(userRole);
@@ -146,7 +149,7 @@ public class MainController {
 		sam.setEnabled(true);
 		sam.setUserRoles(roles);
 		userService.addUser(sam);
-*/		
+		
 		logger.info("intercepted /login. Sending to index");
 		return "index";
 	}
